@@ -1,17 +1,26 @@
 package com.challenge.productmanagement.service.impl;
 
+import com.challenge.productmanagement.dto.PurchaseDTO;
+import com.challenge.productmanagement.model.Product;
 import com.challenge.productmanagement.model.Purchase;
 import com.challenge.productmanagement.repository.PurchaseRepository;
+import com.challenge.productmanagement.service.ProductService;
 import com.challenge.productmanagement.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
+    @Autowired
+    private ProductService productService;
 
     @Override
     public Iterable<Purchase> findAll() {
@@ -24,9 +33,21 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Purchase create() {
+    public Purchase create(PurchaseDTO purchaseDTO) {
         Purchase purchase = new Purchase();
-        purchase.setBuyerEmail("XPTO");
+        List<Product> productsPurchased = new ArrayList<>();
+        for (Long id : purchaseDTO.getProductsIds()) {
+            Optional<Product> product = productService.findById(id);
+            if (product.isPresent()) {
+                productsPurchased.add(product.get());
+            }
+        }
+        purchase.setProducts(productsPurchased);
+        purchase.setTotalValue(
+                purchase.getProducts().stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+        purchase.setBuyerEmail(purchaseDTO.getBuyerEmail());
         purchase.setPurchaseTime(Calendar.getInstance());
 
         return purchaseRepository.save(purchase);
