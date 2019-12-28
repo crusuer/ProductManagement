@@ -10,11 +10,11 @@ It is possible:
 * Retrieving all orders within a given time period
 
 ## Considerations
-* The project uses H2 database, but it can be easily changed to any database due the use of JPA.
-* The project doesn't contain *authentication*, but to implement it I would choose the Bearer Token, 
+- The project uses H2 database, but it can be easily changed to any database due the use of JPA.
+- The project doesn't contain *authentication*, but to implement it I would choose the Bearer Token, 
 because it is a secure method and it is really simple to create a service in the server side that authenticates credentials and generates a token, 
 this token must be provided in the header of requests during a session.
-* To make this service redundant, it should be deployed in different application servers (cloud solutions make it easy), pointing to the same database. 
+- To make this service redundant, it should be deployed in different application servers (cloud solutions make it easy), pointing to the same database. 
 Then, it is necessary to create an application router, it should check if the service is running before send the requests, this can be reached using a health check in the application server, like Spring Boot Actuator.
 
 # Application setup (Locally)
@@ -48,6 +48,7 @@ mvn spring-boot:run
 # API Endpoints
 Postman requests: <p>
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a44084ada439c4fb5c49)
+- If you are running the application locally you can consider `HOST` as *http://localhost:8080*
 
 ## GET
 `HOST`[/products](#get-products)<br/>
