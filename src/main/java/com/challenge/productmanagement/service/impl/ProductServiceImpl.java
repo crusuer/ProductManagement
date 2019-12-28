@@ -24,17 +24,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(ProductDTO productDTO, Long id) {
+    public Optional<Product> save(ProductDTO productDTO, Long id) {
         return findById(id).map(x -> {
             x.setName(productDTO.getName());
             x.setPrice(productDTO.getPrice());
             return productRepository.save(x);
-        }).orElseGet(() -> {
-            Product product = new Product();
-            product.setId(id);
-            product.setName(productDTO.getName());
-            product.setPrice(productDTO.getPrice());
-            return productRepository.save(product);
         });
     }
 

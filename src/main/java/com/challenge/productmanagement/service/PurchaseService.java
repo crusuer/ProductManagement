@@ -11,4 +11,6 @@ public interface PurchaseService {
     Iterable<Purchase> findAllBetweenDates(Calendar startDate, Calendar endDate);
 
     Purchase create(PurchaseDTO purchaseDTO);
+
+    void delete(Long id);
 }

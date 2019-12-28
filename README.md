@@ -1,5 +1,5 @@
 # Product Management
-This project was created as a challenge of a software company.
+This project was created as a challenge for a software company.
 It is possible:
 ##### Product
 * Create a new product
@@ -9,10 +9,18 @@ It is possible:
 * Placing an order
 * Retrieving all orders within a given time period
 
+## Considerations
+* The project uses H2 database, but it can be easily changed to any database due the use of JPA.
+* The project doesn't contain *authentication*, but to implement it I would choose the Bearer Token, 
+because it is a secure method and it is really simple to create a service in the server side that authenticates credentials and generates a token, 
+this token must be provided in the header of requests during a session.
+* To make this service redundant, it should be deployed in different application servers (cloud solutions make it easy), pointing to the same database. 
+Then, it is necessary to create an application router, it should check if the service is running before send the requests, this can be reached using a health check in the application server, like Spring Boot Actuator.
+
 # Application setup (Locally)
 
 ## Requirements
-Before running tha application, ensure the following dependencies are installed:
+Before running the application, ensure the following dependencies are installed:
 
 ```
 Java 11
@@ -20,61 +28,37 @@ Maven 3.2.2
 Git
 ```
 
-Você deve prover as seguintes variáveis de ambiente:
- - spring.datasource.platform
- - spring.datasource.url
- - spring.datasource.username
- - spring.datasource.password
- - spring.jpa.properties.hibernate.dialect
- - spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults
-
-## Instalação
-Baixe o projeto:
+## Installation
+Download the project:
 ```
-git clone https://github.com/crusuer/DesafioRepassaBackend.git
+git clone https://github.com/crusuer/ProductManagement.git
 ```
-Acesse o projeto:
+Go to the project directory:
 ```
-cd [diretorio_do_projeto]
+cd [project_dir]
 ```
-É necessário compilar o código e baixar as dependencias do projeto:
+Compile and download dependencies:
 ```
 mvn clean package
 ```
-Após isso, inicie a aplicação:
+Run application:
 ```
 mvn spring-boot:run
 ```
-# Endpoints da API
-Coleção com todas as chamadas da API no Postman: <p>
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6d560911fe9badcda14d)
-- Se quiser chamar a API localmente, considere `HOST` como *http://localhost:8080*
-- Se quiser chamar a API publicada na Nuvem, considere `HOST` como *https://desafio-repassa.herokuapp.com*
+# API Endpoints
+Postman requests: <p>
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a44084ada439c4fb5c49)
 
-## ADMIN
-### GET
-`HOST`[/admin/employees](#get-admin-employees) <br/>
-`HOST`[/admin/employees/{id}](#get-admin-employees-id) <br/>
-`HOST`[/admin/evaluations](#get-admin-evaluations) <br/>
-`HOST`[/admin/evaluations/{id}](#get-admin-evaluations-id) <br/>
+## GET
+`HOST`[/products](#get-products)<br/>
+`HOST`[/orders](#get-orders)<br/>
 
-### POST
-`HOST`[/admin/employees](#get-admin-employees) <br/>
-`HOST`[/admin/evaluations](#get-admin-evaluations) <br/>
-`HOST`[/admin/assign](#get-admin-assign) <br/>
+## POST
+`HOST`[/products](#post-products)<br/>
+`HOST`[/orders](#post-orders)<br/>
 
-### PUT
-`HOST`[/admin/employees/{id}](#get-admin-employees-id) <br/>
-`HOST`[/admin/evaluations/{id}](#get-admin-evaluations-id) <br/>
+## PUT
+`HOST`[/products](#put-products)<br/>
 
-### DELETE
-`HOST`[/admin/employees/{id}](#get-admin-employees-id) <br/>
-`HOST`[/admin/evaluations/{id}](#get-admin-evaluations-id) <br/>
-<br/>
-## FUNCIONÁRIO
-### GET
-`HOST`[/user/evaluations](#get-user-evaluations) <br/>
-### PUT
-`HOST`[/user/evaluations/{id}](#put-user-evaluations-id) <br/>
 ___
-Para ver a documentação da servico no SWAGGER, acesse `HOST`[/swagger-ui.html](#get-swagger-ui)
+To see the documentation in SWAGGER UI, go to [http://localhost:8080/swagger-ui.html](#get-swagger-ui)

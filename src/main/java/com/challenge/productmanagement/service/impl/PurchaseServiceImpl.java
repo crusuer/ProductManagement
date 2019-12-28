@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -37,19 +36,21 @@ public class PurchaseServiceImpl implements PurchaseService {
         Purchase purchase = new Purchase();
         List<Product> productsPurchased = new ArrayList<>();
         for (Long id : purchaseDTO.getProductsIds()) {
-            Optional<Product> product = productService.findById(id);
-            if (product.isPresent()) {
-                productsPurchased.add(product.get());
-            }
+            productService.findById(id).ifPresent(product -> productsPurchased.add(product));
         }
         purchase.setProducts(productsPurchased);
         purchase.setTotalValue(
                 purchase.getProducts().stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
+                        .map(Product::getPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add));
         purchase.setBuyerEmail(purchaseDTO.getBuyerEmail());
         purchase.setPurchaseTime(Calendar.getInstance());
 
         return purchaseRepository.save(purchase);
+    }
+
+    @Override
+    public void delete(Long id) {
+        purchaseRepository.deleteById(id);
     }
 }

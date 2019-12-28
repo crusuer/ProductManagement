@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ProductService {
     Product create(ProductDTO productDTO);
 
-    Product save(ProductDTO productDTO, Long id);
+    Optional<Product> save(ProductDTO productDTO, Long id);
 
     Optional<Product> findById(Long id);
 

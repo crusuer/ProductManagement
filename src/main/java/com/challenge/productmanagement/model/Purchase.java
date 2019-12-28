@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 public class Purchase {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String buyerEmail;
-    @OneToMany
+    @ManyToMany
     @JoinColumn(name = "product_id")
     private List<Product> products;
     @Temporal(TemporalType.TIMESTAMP)
